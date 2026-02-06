@@ -15,9 +15,8 @@ export default function SmoothScroll({
      const lenis = new Lenis({
        duration: 1.2, 
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
-        direction: 'vertical',
-        gestureDirection: 'vertical', 
-        smooth: true,
+      
+       
         infinite:false,
         lerp: 0.02
     });
@@ -33,7 +32,7 @@ export default function SmoothScroll({
 
     return () => {
       lenis.destroy();
-      gsap.ticker.remove(() => lenis.raf);
+      
     };
   }, []);
 
