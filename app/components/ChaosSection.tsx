@@ -87,9 +87,9 @@ const ChaosSection = () => {
             >
               <div>
                 {/* Icon Glass Container */}
-                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-8 shadow-sm transition-transform group-hover:rotate-6 ${card.isPrimary ? 'bg-white/20' : 'bg-white border border-slate-100'}`}>
+                {/* <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-8 shadow-sm transition-transform group-hover:rotate-6 ${card.isPrimary ? 'bg-white/20' : 'bg-white border border-slate-100'}`}>
                   {React.cloneElement(card.icon as React.ReactElement, { size: 24, strokeWidth: 2.5 })}
-                </div>
+                </div> */}
 
                 <h1 className={`text-2xl font-[1000] mb-4 tracking-tighter ${card.isPrimary ? 'text-white' : 'text-slate-900'}`}>
                   {card.title}
@@ -105,11 +105,7 @@ const ChaosSection = () => {
                 </button>
               )}
               
-              {/* Background watermark for "Decent" vibe */}
-              {!card.isPrimary && React.cloneElement(card.icon as React.ReactElement, { 
-                size: 140, 
-                className: "absolute -bottom-6 -right-6 opacity-[0.03] pointer-events-none group-hover:opacity-[0.06] transition-opacity" 
-              })}
+           
             </div>
           ))}
         </div>
