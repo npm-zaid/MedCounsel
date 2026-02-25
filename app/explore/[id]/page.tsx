@@ -11,8 +11,22 @@ import {
 import { useParams, useRouter } from "next/navigation";
 import { MEDICAL_COLLEGES } from "../page";
 
+// Register GSAP Plugins
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
+// Define the Interface to fix the Property Error
+interface MedicalCollege {
+  id: number;
+  name: string;
+  type: string;
+  state: string;
+  seats: number | string;
+  beds: number | string;
+  fee: string;
+  category: string;
+  established?: string; // Optional field
+  website?: string;     // Optional field
+}
 
 export default function CollegeBrief() {
   const containerRef = useRef(null);
@@ -20,18 +34,15 @@ export default function CollegeBrief() {
   const params = useParams();
 
   const collegeId = Number(params.id);
-  const college = MEDICAL_COLLEGES.find((c) => c.id === collegeId) || MEDICAL_COLLEGES[0];
+  
+  // Cast the found college to our Interface
+  const college = (MEDICAL_COLLEGES.find((c) => c.id === collegeId) || MEDICAL_COLLEGES[0]) as MedicalCollege;
 
-  useEffect(()=>{
-    window.scrollTo(0,0);
-  })
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []); // Added empty dependency array to run only once
 
   useGSAP(() => {
-    const tl = gsap.timeline();
-    
-    // Smooth entrance for bento boxes
-  
-
     // Parallax effect on the background typography
     gsap.to(".bg-text", {
       scrollTrigger: {
@@ -78,7 +89,7 @@ export default function CollegeBrief() {
 
         <div className="grid lg:grid-cols-12 gap-8">
           
-          {/* LEFT: HERO & CLINICAL PROFILE (Col 8) */}
+          {/* LEFT: HERO & CLINICAL PROFILE */}
           <div className="lg:col-span-8 space-y-8">
             <div className="reveal-item bg-white/80 backdrop-blur-2xl p-10 lg:p-14 rounded-[50px] border border-white shadow-[0_20px_50px_rgba(0,0,0,0.02)] relative overflow-hidden">
               <div className="absolute top-0 right-0 p-10 opacity-5">
@@ -106,11 +117,15 @@ export default function CollegeBrief() {
                   </div>
                   <div className="flex flex-col gap-1">
                     <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Foundation</span>
-                    <span className="text-sm font-bold text-slate-900 flex items-center gap-1.5"><Award size={14} className="text-amber-500" /> Est. {college.established}</span>
+                    <span className="text-sm font-bold text-slate-900 flex items-center gap-1.5">
+                      <Award size={14} className="text-amber-500" /> Est. {college.established || "N/A"}
+                    </span>
                   </div>
                   <div className="flex flex-col gap-1">
                     <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Official Portal</span>
-                    <span className="text-sm font-bold text-slate-900 flex items-center gap-1.5"><Globe size={14} className="text-blue-400" /> {college.website}</span>
+                    <span className="text-sm font-bold text-slate-900 flex items-center gap-1.5">
+                      <Globe size={14} className="text-blue-400" /> {college.website || "Official Website"}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -138,7 +153,7 @@ export default function CollegeBrief() {
             </div>
           </div>
 
-          {/* RIGHT: METRICS (Col 4) */}
+          {/* RIGHT: METRICS */}
           <div className="lg:col-span-4 space-y-6">
             <div className="grid grid-cols-1 gap-6">
               {metrics.map((m, i) => (
@@ -158,12 +173,11 @@ export default function CollegeBrief() {
             </div>
 
             <button className="reveal-item w-full py-6 bg-white border-2 border-dashed border-slate-200 rounded-[40px] flex flex-col items-center justify-center gap-2 group hover:border-[#155DFC] transition-all">
-              <Download className="text-slate-300 group-hover:text-[#155DFC] group-hover:bounce transition-all" size={32} />
+              <Download className="text-slate-300 group-hover:text-[#155DFC] transition-all" size={32} />
               <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest group-hover:text-slate-900">Download Prospectus</span>
             </button>
           </div>
         </div>
-
       </div>
     </main>
   );
